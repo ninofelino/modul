@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+    
+   
+    
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="felino.action_window">
+      <field name="name">felino window</field>
+      <field name="res_model">felino.felino</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="felino.action_server">
+      <field name="name">felino server</field>
+      <field name="model_id" ref="model_felino_felino"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+   
+    <menuitem name="felino" id="felino.menu_root"/>
+    
+    <!-- menu categories -->
+    
+    <menuitem name="Menu 1" id="felino.menu_1" parent="felino.menu_root"/>
+    <menuitem name="Menu 2" id="felino.menu_2" parent="felino.menu_root"/>
+    
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="felino.menu_1_list" parent="felino.menu_1"
+              action="felino.action_window"/>
+    <menuitem name="Server to list" id="felino" parent="felino.menu_2"
+              action="felino.action_server"/>
+    -->
+  </data>
+</odoo>

@@ -1,0 +1,15 @@
+CREATE OR REPLACE VIEW public.felinocatagory AS 
+ SELECT concat('<a href="/felino/inv/cat/',felino_felino.catagory,'">', felino_felino.catagory, '<span class="badge badge-secondary">', count(*), '</span></a>') AS dt
+   FROM felino_felino
+  GROUP BY felino_felino.catagory;
+
+ALTER TABLE public.felinocatagory
+  OWNER TO postgres;
+
+####################
+select concat('<a href="/felino/inv/catagory/',categ_id,'">',(select name from product_category where id=t.categ_id),'<span class="badge badge-warning">',count,'</span>','</a>')
+from
+(
+select categ_id,count(*) from product_template group by 1
+) t
+order by 1

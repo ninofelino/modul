@@ -1,0 +1,4 @@
+delete from product_template;
+delete from product_product;
+DELETE FROM public.product_attribute;
+DELETE FROM public.product_attribute_value_product_product_rel

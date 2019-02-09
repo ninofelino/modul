@@ -1,0 +1,15 @@
+
+sudo apt-get --purge remove -y odoo
+sudo apt-get --purge -f remove -y postgresql postgresql\*
+sudo apt-get -y autoremove
+
+sudo rm -rf /usr/lib/python2.7/dist-packages/openerp/
+sudo rm -rf /var/log/odoo
+sudo rm -rf /etc/odoo /etc/profile.d/odootools.sh /etc/bash_completion/odoo /etc/cron.daily/db_backup
+
+sudo rm -rf /var/lib/postgresql /etc/postgresql /etc/postgresql-common /var/cache/postgresql/ /usr/share/postgresql-common/ /usr/share/postgresql /var/log/postgresql /usr/lib/postgresql 
+
+sudo userdel -rf postgresql
+sudo groupdel postgresql
+sudo userdel -rf odoo
+sudo groupdel odoo

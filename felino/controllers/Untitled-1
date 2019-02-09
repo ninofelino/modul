@@ -1,0 +1,13 @@
+191765
+insert into product_attribute_value_product_product_rel(191765,1)
+delete from product_product;
+delete from product_template;
+
+delete from stock_move;
+delete from stock_scrap;
+delete from pos_order_line;
+delete from pos_order                                                                                                                                     ;
+
+
+delete from product_template;
+delete from product_product;

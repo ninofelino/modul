@@ -1,0 +1,17 @@
+<openerp>
+         <data> 
+               <template id="my_front_end_asset">
+                         name="Website Asset For My App"
+                         inherit_id="Website.asset.frontend"
+                         <xpath expr="." position="inside">
+                                <script src="/felino/static/src/js/datatable/datatable.js"/>
+                                <script type="text/javascript" src="/felino/static/js/felino.js"></script>
+             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"/>
+             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+                         </xpath>
+               </template>
+         </data>
+</openerp>
+
+
+

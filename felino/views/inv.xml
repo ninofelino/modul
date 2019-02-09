@@ -1,0 +1,223 @@
+<odoo>
+<data>
+   
+<template id="inv">
+   <t t-call="website.layout">
+      <xpath expr="." position="inside">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jqc-1.12.4/jszip-2.5.0/dt-1.10.18/af-2.3.2/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.5.0/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.css"/>
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css"/>
+         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"/>
+      <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"/>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"/>
+      <script>
+         $(document).ready(function(event) {
+            var files;
+            $('input[type=file]').on('change', prepareUpload);
+            function prepareUpload(event){
+                     files = event.target.files;
+            };
+            $(':button').click(function(){
+             var formData = new FormData();
+             $.each(files, function(key, value){
+                formData.append(key, value);
+             });
+             alert(formData.filename);
+             $.ajax({
+             url: '/felino/uploadfile',  
+             type: 'GET',
+             data: formData,
+             success:function(data){
+                                    $('#result').html(data);
+                                }, 
+             cache: false,
+             contentType: false,
+             processData: false
+        });
+    });
+            $('#exp').click(function(){
+               var fileInput = document.getElementById('fileupload');
+               var file = fileInput.files[0];
+               var formData = new FormData();
+               formData.append('file', file);
+               alert(fileInput); 
+               var xhr = new XMLHttpRequest();
+               xhr.open('POST', form.getAttribute('action'), true);
+               xhr.send(formData);
+
+            });           
+            $('#uploa').click(function(){
+              alert(key);
+              var formData = new FormData();
+              $.each(files, function(key, value){
+              formData.append(key, value);
+              });
+              alert(formData);
+            });
+
+            $('#example').DataTable(
+               {
+               dom: 'Bfrtip',buttons: ['print','csv','excel','copy']
+               } );
+               } );
+      function exportTableToCSV($table, filename) {
+                var $headers = $table.find('tr:has(th)')
+                    ,$rows = $table.find('tr:has(td)')
+
+                    // Temporary delimiter characters unlikely to be typed by keyboard
+                    // This is to avoid accidentally splitting the actual contents
+                    ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+                    ,tmpRowDelim = String.fromCharCode(0) // null character
+
+                    // actual delimiter characters for CSV format
+                    ,colDelim = '","'
+                    ,rowDelim = '"\r\n"';
+
+                    // Grab text from table into CSV formatted string
+                    var csv = '"';
+                    csv += formatRows($headers.map(grabRow));
+                    csv += rowDelim;
+                    csv += formatRows($rows.map(grabRow)) + '"';
+
+                    // Data URI
+                    var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+                // For IE (tested 10+)
+                if (window.navigator.msSaveOrOpenBlob) {
+                    var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
+                        type: "text/csv;charset=utf-8;"
+                    });
+                    navigator.msSaveBlob(blob, filename);
+                } else {
+                    $(this)
+                        .attr({
+                            'download': filename
+                            ,'href': csvData
+                            //,'target' : '_blank' //if you want it to open in a new window
+                    });
+                }
+
+                //------------------------------------------------------------
+                // Helper Functions 
+                //------------------------------------------------------------
+                // Format the output so it has the appropriate delimiters
+                function formatRows(rows){
+                    return rows.get().join(tmpRowDelim)
+                        .split(tmpRowDelim).join(rowDelim)
+                        .split(tmpColDelim).join(colDelim);
+                }
+                // Grab and format a row from the table
+                function grabRow(i,row){
+                     
+                    var $row = $(row);
+                    //for some reason $cols = $row.find('td') || $row.find('th') won't work...
+                    var $cols = $row.find('td'); 
+                    if(!$cols.length) $cols = $row.find('th');  
+
+                    return $cols.map(grabCol)
+                                .get().join(tmpColDelim);
+                }
+                // Grab and format a column from the table 
+                function grabCol(j,col){
+                    var $col = $(col),
+                        $text = $col.text();
+
+                    return $text.replace('"', '""'); // escape double quotes
+
+                }
+            }
+                               
+                       </script>
+                </xpath> 
+                
+   <div class="row">
+        <div id="result"></div>
+   <div class="col-sm-3">
+   <div class="panel panel-default">
+      <div class="panel-heading">
+       <ul class="pagination">
+       <li class="page-item"><a class="page-link" href="/felino/eod/upload">Upload</a></li>
+       <li class="page-item"><a class="page-link" href="/felino/eod/export/C0040118.DBF">Export</a></li>
+       <li class="page-item"><a class="page-link" href="/felino/eod">Back</a></li>
+       <li class="page-item"><a class="page-link" href="#">Gateway</a></li>
+       <field name="data" />
+      
+       <form method="POST" action="/felino/uploadfile" enctype="multipart/form-data" target="fileframe">
+                <input type="file" name="attachment"  />
+                <input type="submit"/>
+       </form>
+
+  
+  
+
+
+
+       </ul>
+
+
+       
+                     </div>
+                    
+                     <div class="panel-body" style="max-height:450px;overflow-y: scroll;"> 
+                     <table id="kiri" class="table table-stripped">
+                     <thead></thead>
+                     <tbody>
+         
+                        <t t-foreach="fnames" t-as="filenames">
+                         <tr>  
+                           <td><span t-raw="filenames.link"/></td>
+                           <td><span class="badge badge-secondary" t-esc="filenames.Child"/></td>
+                           <td><span t-raw="filenames.Child1"/></td>
+                           <td class="text-right" ><span t-raw="filenames.Child2"/></td>
+          
+                         </tr>
+                        </t>
+         
+                     </tbody>
+                     </table>
+            </div>
+       </div>
+       
+       
+       
+  </div>
+  <div class="col-sm-9">
+        <table id="example" class="o_list_view table table-condensed table-striped o_list_view_ungrouped" style="height:150mm;">
+            <thead>
+               <tr>
+               <th  width="10%">Name</th>
+               <th>Flag</th>
+               <th>Barcode</th>
+               <th>Description</th>
+               <th>Qty</th>
+               <th>Price</th>
+               <th>Cost</th>
+               <th>Category</th>
+               </tr>
+            </thead>
+            <tbody>
+               <t t-foreach="detail" t-as="eod">
+                  <tr>
+                  <td width="5%"><span t-esc="eod.name"/></td>
+                  <td width="5%"><span t-raw="eod.flag"/></td>
+                  <td width="5%"><span t-raw="eod.code"/></td>
+                  <td width="50%"><span t-raw="eod.desc"/></td>
+                  <td width="5%" class="text-right"><span t-raw="eod.qty"/></td>
+                  <td width="5%" class="text-right"><span t-raw="eod.price"/></td>
+                  <td width="5%" class="text-right"><span t-raw="eod.cprice"/></td>
+                  <td width="5%" ><span t-raw="eod.category"/></td>             
+                  </tr>
+                    
+               </t>
+            </tbody>
+         </table>
+  </div>
+</div>                
+                 </t>                        
+   </template>
+</data>
+</odoo>
